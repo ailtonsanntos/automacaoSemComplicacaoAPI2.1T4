@@ -6,24 +6,34 @@ import br.com.chronosAcademy.pages.LoginPage;
 import br.com.chronosAcademy.pages.NewAccountPage;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
+import io.opentelemetry.exporter.logging.SystemOutLogRecordExporter;
 import org.junit.Assert;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class LoginSteps {
 
     LoginPage loginPage;
+    String username;
 
     @Before
-    public void iniciaNavegador(){
+    public void iniciaNavegador(Scenario cenario) {
+
         new Driver(Browser.CHROME);
+        Driver.setNomeCenario(cenario.getName());
+        Driver.criaDiretorio();
     }
 
     @After
-    public void fecharNavegador(){
+    public void fecharNavegador(Scenario cenario) throws IOException {
+        if (cenario.isFailed()){
+            Driver.printScreen("erro no cenário");
+        }
         Driver.getDriver().quit();
     }
 
@@ -67,14 +77,15 @@ public class LoginSteps {
     }
 
     @Quando("os campos de login sejam preenchidos da seguinte forma")
-    public void osCamposDeLoginSejamPreenchidosDaSeguinteForma(Map<String, String> map) {
-        String username = map.get("login");
+    public void osCamposDeLoginSejamPreenchidosDaSeguinteForma(Map<String, String> map) throws IOException {
+        username = map.get("login");
         String password = map.get("password");
         boolean remember = Boolean.parseBoolean(map.get("remember"));
 
         loginPage.setInpUserName(username);
         loginPage.setInpPassword(password);
         if(remember) loginPage.clickInpRemember();
+        Driver.printScreen("preenchimento dos campos de login");
     }
 
     @Quando("for realizado o clique no botao sign in")
@@ -83,13 +94,14 @@ public class LoginSteps {
     }
 
     @Entao("deve ser possivel logar no sistema")
-    public void deveSerPossivelLogarNoSistema() {
-        
+    public void deveSerPossivelLogarNoSistema() throws IOException {
+        Assert.assertEquals(username, loginPage.getUsuarioLogado());
+        Driver.printScreen("Ser possível logar no sistema");
     }
 
     @Entao("o sistema devera exibir uma mensagem de erro")
     public void oSistemaDeveraExibirUmaMensagemDeErro() {
-        
+        Assert.assertEquals("Incorrect user name or password.", loginPage.getErroLogin());
     }
 
     @Entao("o botao sign in deve permanecer desabilitado")
