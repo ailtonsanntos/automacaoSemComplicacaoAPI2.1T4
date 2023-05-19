@@ -25,4 +25,8 @@ public class LoginMap {
     public WebElement LinkCreateAccount;
     @FindBy(css = ".loader")
     public WebElement divLoader;
+    @FindBy(css = ".containMiniTitle")
+    public WebElement textLogado;
+    @FindBy(xpath = "//label[contains(text(), 'Incorrect')]")
+    public WebElement txtErroLogin;
 }

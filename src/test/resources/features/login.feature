@@ -1,5 +1,5 @@
 #language:pt
-
+@login
 Funcionalidade: Login
 
   Contexto:
@@ -20,6 +20,7 @@ Funcionalidade: Login
     Quando for realizado um clique no link Create New Account
     Entao a pagina Create New Account deve ser exibida
 
+  @LoginComSucesso
   Esquema do Cenário: Realizar login com <identificacao>
     Quando os campos de login sejam preenchidos da seguinte forma
       | login    | <login>    |
@@ -30,10 +31,10 @@ Funcionalidade: Login
 
     Exemplos:
       | identificacao       | login   | password | remember |
-      | campos obrigatorios | chronos | senha    | false    |
-      | todos os campos     | chronos | senha    | true     |
+      | campos obrigatorios | ailton_chronos | Senha123    | false    |
+      | todos os campos     | ailton_chronos | Senha123    | true     |
 
-
+  @loginInvalido
   Esquema do Cenário: Realizar login com <identificacao>
     Quando os campos de login sejam preenchidos da seguinte forma
       | login    | <login>    |
@@ -44,8 +45,8 @@ Funcionalidade: Login
 
     Exemplos:
       | identificacao    | login    | password | remember |
-      | usuario invalido | invalido | senha    | false    |
-      | senha invalida   | chronos  | invalido | true     |
+      | usuario invalido | invalido | Senha123    | false    |
+      | senha invalida   | ailton_chronos  | invalido | true     |
 
   @dadosEmBranco
   Esquema do Cenário: Realizar login com <identificacao>
@@ -57,5 +58,5 @@ Funcionalidade: Login
 
     Exemplos:
       | identificacao     | login   | password | remember |
-      | usuario em branco |         | senha    | false    |
-      | senha em branco   | chronos |          | false    |
+      | usuario em branco |         | Senha123    | false    |
+      | senha em branco   | ailton_chronos |          | false    |
