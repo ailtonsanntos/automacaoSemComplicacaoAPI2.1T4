@@ -17,7 +17,7 @@ public class LoginMap {
     public WebElement inpUserName;
     @FindBy(css = "*[name='password']")
     public WebElement inpPassword;
-    @FindBy(css = "#sign_in_btnundefined")
+    @FindBy(id = "sign_in_btn")
     public WebElement btnSignIn;
     @FindBy(css = "*[name='remember_me']")
     public WebElement inpRemember;
